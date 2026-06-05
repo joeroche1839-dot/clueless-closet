@@ -201,6 +201,38 @@ body {
 }
 .field input:focus, .field select:focus { outline: none; border-color: var(--pink); }
 
+/* ---------- welcome splash ---------- */
+.welcome-overlay {
+  position: fixed; inset: 0; z-index: 100; display: flex;
+  align-items: center; justify-content: center; padding: 22px;
+  background:
+    radial-gradient(900px 500px at 80% 0%, rgba(247,208,70,0.5) 0%, transparent 55%),
+    radial-gradient(800px 500px at 10% 100%, rgba(255,158,199,0.55) 0%, transparent 55%),
+    linear-gradient(160deg, #fff7fb 0%, #fdeef6 50%, #fef8e7 100%);
+  transition: opacity .45s ease, visibility .45s ease;
+}
+.welcome-overlay.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.welcome-card {
+  width: 100%; max-width: 440px; border-radius: 28px; padding: 40px 32px;
+  text-align: center; animation: rise .5s cubic-bezier(.2,.8,.2,1) both;
+}
+.welcome-sparkle { font-size: 40px; animation: floaty 2.4s ease-in-out infinite; }
+@keyframes floaty { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
+.welcome-hi {
+  font-size: 14px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--muted); margin: 10px 0 4px;
+}
+.welcome-line {
+  font-size: clamp(28px, 6vw, 38px); letter-spacing: -0.03em; line-height: 1.08; color: var(--ink);
+}
+.welcome-line em {
+  font-family: "Playfair Display", serif; font-style: italic; font-weight: 600;
+  background: linear-gradient(120deg, var(--pink), #ff7eb3); -webkit-background-clip: text;
+  background-clip: text; -webkit-text-fill-color: transparent;
+}
+.welcome-sub { color: var(--muted); font-size: 16px; line-height: 1.5; margin: 12px auto 24px; max-width: 340px; }
+
 /* ---------- camera ---------- */
 .camera-sheet { width: 100%; max-width: 440px; border-radius: 26px; padding: 24px 22px; }
 .camera-sheet h3 { font-size: 22px; letter-spacing: -0.02em; margin-bottom: 16px; }

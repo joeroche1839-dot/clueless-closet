@@ -10,6 +10,11 @@ let outfits = load();
 let activeCat = "all";
 let pendingImage = null; // base64 of the photo being added
 
+// ── welcome splash (shows on every load) ────────────────────
+const welcome = $("welcome");
+function dismissWelcome() { welcome.classList.add("hide"); }
+$("welcomeBtn").addEventListener("click", dismissWelcome);
+
 // ── persistence ────────────────────────────────────────────
 function load() {
   try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
