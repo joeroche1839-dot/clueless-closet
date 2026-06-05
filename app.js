@@ -104,6 +104,11 @@ modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); }
 
 fileInput.addEventListener("change", (e) => handleFile(e.target.files[0]));
 
+// "Choose Photo" → file picker;  "Take Photo" → in-app camera (with native fallback)
+$("chooseBtn").addEventListener("click", () => fileInput.click());
+$("cameraBtn").addEventListener("click", openCamera);
+$("cameraFallback").addEventListener("change", (e) => handleFile(e.target.files[0]));
+
 ["dragover", "dragenter"].forEach(ev =>
   drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("dragover"); }));
 ["dragleave", "drop"].forEach(ev =>
@@ -118,12 +123,15 @@ function handleFile(file) {
     alert("Please pick an image file. 💛");
     return;
   }
-  resizeImage(file, 900, (dataUrl) => {
-    pendingImage = dataUrl;
-    preview.src = dataUrl;
-    drop.classList.add("has-image");
-    if (!nameInput.value) nameInput.focus();
-  });
+  resizeImage(file, 900, applyImage);
+}
+
+// shared: set the pending photo from any source (file or camera)
+function applyImage(dataUrl) {
+  pendingImage = dataUrl;
+  preview.src = dataUrl;
+  drop.classList.add("has-image");
+  if (!nameInput.value) nameInput.focus();
 }
 
 // downscale + compress so localStorage doesn't fill up instantly
@@ -160,6 +168,78 @@ $("saveBtn").addEventListener("click", () => {
   render();
 });
 
+// ── in-app camera ───────────────────────────────────────────
+const cameraModal = $("camera");
+const camVideo = $("camVideo");
+const camStage = camVideo.closest(".camera-stage");
+const camError = $("camError");
+let camStream = null;
+let facing = "environment"; // back camera by default (best for outfit flat-lays)
+
+function cameraSupported() {
+  return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+}
+
+function openCamera() {
+  // No camera API (or insecure context) → fall back to the native capture input
+  if (!cameraSupported()) {
+    $("cameraFallback").click();
+    return;
+  }
+  cameraModal.classList.add("open");
+  startStream();
+}
+
+async function startStream() {
+  stopStream();
+  camStage.classList.remove("error");
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: facing, width: { ideal: 1280 }, height: { ideal: 1280 } },
+      audio: false,
+    });
+    camVideo.srcObject = camStream;
+  } catch (err) {
+    // Permission denied / no camera → show message and offer native picker
+    camStage.classList.add("error");
+    camError.textContent = err && err.name === "NotAllowedError"
+      ? "Camera access was blocked. Allow camera in your browser settings, or use “Choose Photo” instead. 💛"
+      : "No camera available here. Tap “Choose Photo” to upload from your library instead.";
+  }
+}
+
+function stopStream() {
+  if (camStream) { camStream.getTracks().forEach(t => t.stop()); camStream = null; }
+  camVideo.srcObject = null;
+}
+
+function closeCamera() {
+  stopStream();
+  cameraModal.classList.remove("open");
+}
+
+$("camShutter").addEventListener("click", () => {
+  if (!camStream || !camVideo.videoWidth) return;
+  // draw current frame, downscaled to 900px max, into a jpeg
+  const max = 900;
+  let w = camVideo.videoWidth, h = camVideo.videoHeight;
+  if (w > h && w > max) { h = h * max / w; w = max; }
+  else if (h > max) { w = w * max / h; h = max; }
+  const canvas = document.createElement("canvas");
+  canvas.width = w; canvas.height = h;
+  canvas.getContext("2d").drawImage(camVideo, 0, 0, w, h);
+  applyImage(canvas.toDataURL("image/jpeg", 0.82));
+  closeCamera();
+});
+
+$("camFlip").addEventListener("click", () => {
+  facing = facing === "environment" ? "user" : "environment";
+  startStream();
+});
+
+$("camClose").addEventListener("click", closeCamera);
+cameraModal.addEventListener("click", (e) => { if (e.target === cameraModal) closeCamera(); });
+
 // ── "Pick my outfit" spotlight ──────────────────────────────
 const spotlight = $("spotlight");
 function pickOutfit() {
@@ -177,7 +257,7 @@ spotlight.addEventListener("click", (e) => { if (e.target === spotlight) spotlig
 
 // close modals on Escape
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") { closeModal(); spotlight.classList.remove("open"); }
+  if (e.key === "Escape") { closeModal(); closeCamera(); spotlight.classList.remove("open"); }
 });
 
 // ── go ──────────────────────────────────────────────────────

@@ -7,7 +7,8 @@ tag them, and let your imaginary computer pick the perfect look — just like Ch
 
 ## Features
 
-- 📸 **Upload looks** — tap or drag-and-drop a photo, name it, pick a category
+- 📷 **Take a photo** — snap an outfit straight from your device camera (live preview + front/back flip), or
+- 🖼️ **Upload looks** — tap, choose from your library, or drag-and-drop a photo, then name it and pick a category
 - 🗂️ **Categories** — Tops, Bottoms, Dresses, Shoes, Accessories, Full Looks
 - ✨ **Pick My Outfit** — the Cher-style "computer picks your look" spotlight, with re-roll
 - 💾 **Auto-saves** in your browser (`localStorage`) — your closet is there when you come back

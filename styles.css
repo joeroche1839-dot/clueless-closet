@@ -168,6 +168,16 @@ body {
 }
 .modal-close:hover { background: rgba(43, 35, 48, 0.16); }
 
+.upload-actions { display: flex; gap: 10px; margin-bottom: 14px; }
+.upload-btn {
+  flex: 1; cursor: pointer; font-family: var(--font); font-weight: 600; font-size: 15px;
+  color: var(--ink); padding: 14px 12px; border-radius: 16px;
+  border: 1.5px solid rgba(43, 35, 48, 0.12); background: rgba(255, 255, 255, 0.8);
+  transition: transform .15s ease, border-color .15s ease, background .15s ease;
+}
+.upload-btn:hover { transform: translateY(-2px); border-color: var(--pink); background: #fff; }
+.upload-btn:active { transform: translateY(0); }
+
 .drop {
   display: block; position: relative; cursor: pointer; text-align: center;
   border: 2px dashed rgba(255, 126, 179, 0.5); border-radius: 18px;
@@ -190,6 +200,37 @@ body {
   background: rgba(255, 255, 255, 0.8); transition: border-color .15s ease;
 }
 .field input:focus, .field select:focus { outline: none; border-color: var(--pink); }
+
+/* ---------- camera ---------- */
+.camera-sheet { width: 100%; max-width: 440px; border-radius: 26px; padding: 24px 22px; }
+.camera-sheet h3 { font-size: 22px; letter-spacing: -0.02em; margin-bottom: 16px; }
+.camera-stage {
+  position: relative; width: 100%; aspect-ratio: 3 / 4; max-height: 60vh;
+  border-radius: 18px; overflow: hidden; background: #1c1620;
+  display: grid; place-items: center;
+}
+#camVideo { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cam-error { display: none; color: #fff; font-size: 14px; text-align: center; padding: 24px; line-height: 1.5; }
+.camera-stage.error #camVideo { display: none; }
+.camera-stage.error .cam-error { display: block; }
+
+.camera-controls { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; }
+.cam-icon, .cam-spacer {
+  width: 50px; height: 50px; display: grid; place-items: center; font-size: 22px;
+  border: none; cursor: pointer; border-radius: 50%; background: rgba(43, 35, 48, 0.08);
+  transition: background .15s ease, transform .15s ease;
+}
+.cam-spacer { background: transparent; cursor: default; }
+.cam-icon:hover { background: rgba(43, 35, 48, 0.16); transform: rotate(-25deg); }
+.shutter {
+  width: 70px; height: 70px; border-radius: 50%; cursor: pointer;
+  border: 4px solid #fff; padding: 4px; background: transparent;
+  box-shadow: 0 0 0 2px rgba(43, 35, 48, 0.15); transition: transform .12s ease;
+}
+.shutter span { display: block; width: 100%; height: 100%; border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink), var(--yellow)); }
+.shutter:hover { transform: scale(1.05); }
+.shutter:active { transform: scale(0.92); }
 
 /* ---------- spotlight ---------- */
 .spotlight { max-width: 380px; text-align: center; }

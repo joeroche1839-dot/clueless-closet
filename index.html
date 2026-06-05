@@ -63,8 +63,15 @@
       <button class="modal-close" id="modalClose">×</button>
       <h3>Add a New Look</h3>
 
-      <label class="drop" id="drop">
-        <input type="file" id="fileInput" accept="image/*" hidden />
+      <div class="upload-actions">
+        <button type="button" id="cameraBtn" class="upload-btn">📷 Take Photo</button>
+        <button type="button" id="chooseBtn" class="upload-btn">🖼️ Choose Photo</button>
+      </div>
+
+      <input type="file" id="fileInput" accept="image/*" hidden />
+      <input type="file" id="cameraFallback" accept="image/*" capture="environment" hidden />
+
+      <label class="drop" id="drop" for="fileInput">
         <div id="dropInner">
           <div class="drop-icon">📸</div>
           <p>Tap to choose a photo</p>
@@ -91,6 +98,23 @@
       </label>
 
       <button id="saveBtn" class="btn-primary wide">Save to Closet</button>
+    </div>
+  </div>
+
+  <!-- Camera capture -->
+  <div id="camera" class="modal-overlay">
+    <div class="camera-sheet glass">
+      <button class="modal-close" id="camClose">×</button>
+      <h3>Take a Photo</h3>
+      <div class="camera-stage">
+        <video id="camVideo" autoplay playsinline muted></video>
+        <p id="camError" class="cam-error"></p>
+      </div>
+      <div class="camera-controls">
+        <button id="camFlip" class="cam-icon" title="Switch camera">🔄</button>
+        <button id="camShutter" class="shutter" title="Capture"><span></span></button>
+        <span class="cam-spacer"></span>
+      </div>
     </div>
   </div>
 
