@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>As If! — Virtual Closet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- soft decorative blobs -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">♡</span>
+      <div class="brand-text">
+        <h1>As&nbsp;If!</h1>
+        <p>Virtual Closet</p>
+      </div>
+    </div>
+    <button id="addBtn" class="btn-primary">
+      <span class="plus">+</span> Add Outfit
+    </button>
+  </header>
+
+  <main class="container">
+    <section class="hero glass">
+      <p class="hero-quote">“Ugh, as if!”</p>
+      <h2>Your closet, totally computerized.</h2>
+      <p class="hero-sub">Upload your looks, tag them, and let your imaginary computer pick the perfect outfit — just like Cher.</p>
+      <div class="hero-actions">
+        <button id="heroAdd" class="btn-primary">Upload a Look</button>
+        <button id="pickBtn" class="btn-ghost">✨ Pick My Outfit</button>
+      </div>
+    </section>
+
+    <nav class="filters" id="filters">
+      <button class="chip active" data-cat="all">All</button>
+      <button class="chip" data-cat="Tops">Tops</button>
+      <button class="chip" data-cat="Bottoms">Bottoms</button>
+      <button class="chip" data-cat="Dresses">Dresses</button>
+      <button class="chip" data-cat="Shoes">Shoes</button>
+      <button class="chip" data-cat="Accessories">Accessories</button>
+      <button class="chip" data-cat="Full Looks">Full Looks</button>
+    </nav>
+
+    <section id="grid" class="grid"></section>
+
+    <div id="empty" class="empty glass">
+      <div class="empty-emoji">👗</div>
+      <h3>Your closet is empty… for now</h3>
+      <p>Tap <strong>Add Outfit</strong> to start building your collection.</p>
+    </div>
+  </main>
+
+  <!-- Upload modal -->
+  <div id="modal" class="modal-overlay">
+    <div class="modal glass">
+      <button class="modal-close" id="modalClose">×</button>
+      <h3>Add a New Look</h3>
+
+      <label class="drop" id="drop">
+        <input type="file" id="fileInput" accept="image/*" hidden />
+        <div id="dropInner">
+          <div class="drop-icon">📸</div>
+          <p>Tap to choose a photo</p>
+          <span>or drag &amp; drop it here</span>
+        </div>
+        <img id="preview" class="preview" alt="preview" />
+      </label>
+
+      <label class="field">
+        <span>Name this look</span>
+        <input type="text" id="nameInput" placeholder="e.g. Yellow Plaid Power Suit" />
+      </label>
+
+      <label class="field">
+        <span>Category</span>
+        <select id="catInput">
+          <option>Tops</option>
+          <option>Bottoms</option>
+          <option>Dresses</option>
+          <option>Shoes</option>
+          <option>Accessories</option>
+          <option selected>Full Looks</option>
+        </select>
+      </label>
+
+      <button id="saveBtn" class="btn-primary wide">Save to Closet</button>
+    </div>
+  </div>
+
+  <!-- Pick-an-outfit spotlight -->
+  <div id="spotlight" class="modal-overlay">
+    <div class="spotlight glass">
+      <button class="modal-close" id="spotClose">×</button>
+      <p class="spot-label">Today's pick is…</p>
+      <img id="spotImg" alt="picked outfit" />
+      <h3 id="spotName"></h3>
+      <button id="reroll" class="btn-ghost">🔄 Pick another</button>
+    </div>
+  </div>
+
+  <footer class="footer">Made with 💛 — rolling with the homies since '95</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
